@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REGNONS - Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .admin-container { padding: 40px 0; }
+    .auth-box, .dashboard-box { background: var(--white); border: 1px solid var(--card-border); border-radius: 12px; padding: 30px; margin-bottom: 30px; }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 5px; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 1px solid var(--card-border); border-radius: 6px; }
+    .list-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid var(--card-border); }
+    .btn-delete { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="/" class="logo">
+        <span class="logo-text">REGN<span class="gold-o">O</span>NS</span> <small>(Admin Panel)</small>
+      </a>
+      <a href="/" class="btn-secondary">View Website</a>
+    </div>
+  </nav>
+
+  <div class="container admin-container">
+    
+    <!-- Admin Authentication -->
+    <div id="auth-section" class="auth-box">
+      <h2>Admin Passkey Required</h2>
+      <p style="color: var(--text-muted); margin-bottom: 15px;">Enter your admin passkey to manage content.</p>
+      <div class="form-group">
+        <input type="password" id="admin-passkey" placeholder="Enter Secret Passkey (default: regnons123)">
+      </div>
+      <button onclick="loginAdmin()" class="btn-primary">Unlock Panel</button>
+    </div>
+
+    <!-- Dashboard Content (Hidden by default) -->
+    <div id="dashboard-section" class="hidden">
+      
+      <!-- Add Service Form -->
+      <div class="dashboard-box">
+        <h3>Add New Service</h3>
+        <form id="add-service-form" style="margin-top: 15px;">
+          <div class="form-group">
+            <label>Service Title</label>
+            <input type="text" id="service-title" placeholder="e.g., University Final Year Project Support" required>
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <select id="service-category">
+              <option value="Software Development">Software Development</option>
+              <option value="Academic Projects">Academic Projects</option>
+              <option value="Digital Marketing">Digital Marketing</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea id="service-desc" rows="3" required></textarea>
+          </div>
+          <button type="submit" class="btn-primary">Add Service</button>
+        </form>
+
+        <h4 style="margin-top: 25px;">Existing Services</h4>
+        <div id="admin-services-list" style="margin-top: 10px;"></div>
+      </div>
+
+      <!-- Add Project Form -->
+      <div class="dashboard-box">
+        <h3>Add Portfolio / Academic Project</h3>
+        <form id="add-project-form" style="margin-top: 15px;">
+          <div class="form-group">
+            <label>Project Title</label>
+            <input type="text" id="project-title" placeholder="e.g., E-Commerce App or ML Research Thesis" required>
+          </div>
+          <div class="form-group">
+            <label>Tech Stack</label>
+            <input type="text" id="project-tech" placeholder="e.g., Node.js, React, Python" required>
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <select id="project-category">
+              <option value="Client Project">Client Project</option>
+              <option value="Academic / University">Academic / University</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-primary">Add Project</button>
+        </form>
+
+        <h4 style="margin-top: 25px;">Existing Projects</h4>
+        <div id="admin-projects-list" style="margin-top: 10px;"></div>
+      </div>
+
+      <!-- Customer Inquiries -->
+      <div class="dashboard-box">
+        <h3>Contact Form Messages / Leads</h3>
+        <div id="admin-inquiries-list" style="margin-top: 15px;"></div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

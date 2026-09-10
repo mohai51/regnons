@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REGNONS - Empowering Ideas, Leading the Future</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="#" class="logo">
+        <span class="logo-text">REGN<span class="gold-o">O</span>NS</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact" class="btn-primary">Contact Us</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="container hero-content">
+      <span class="badge">Innovation & Tech Agency</span>
+      <h1>Empowering Ideas, <br><span class="highlight">Leading the Future.</span></h1>
+      <p>We transform bold business concepts and complex academic requirements into high-performance digital solutions.</p>
+      <div class="hero-btns">
+        <a href="#contact" class="btn-primary">Start a Project</a>
+        <a href="#services" class="btn-secondary">Explore Services</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Services Section -->
+  <section id="services" class="services-section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Our Services</h2>
+        <p>End-to-end technical excellence for businesses and academic needs.</p>
+      </div>
+      <div id="services-grid" class="grid">
+        <!-- Dynamically loaded from DB via app.js -->
+        <p class="loading">Loading services...</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects / Portfolio Section -->
+  <section id="projects" class="projects-section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Portfolio & University Projects</h2>
+        <p>Explore some of our client applications and academic solutions.</p>
+      </div>
+      <div id="projects-grid" class="grid">
+        <!-- Dynamically loaded from DB via app.js -->
+        <p class="loading">Loading projects...</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Form Section -->
+  <section id="contact" class="contact-section">
+    <div class="container">
+      <div class="contact-card">
+        <div class="contact-info">
+          <h2>Let's Build Something Great</h2>
+          <p>Have a project idea or need support with academic software development? Send us a message.</p>
+          <p class="email-link">📧 regnonsbangladesh@gmail.com</p>
+        </div>
+        <form id="contact-form" class="contact-form">
+          <input type="text" id="name" placeholder="Your Name" required>
+          <input type="email" id="email" placeholder="Your Email" required>
+          <select id="projectType" required>
+            <option value="" disabled selected>Select Category</option>
+            <option value="Web/Software Development">Web / Software Development</option>
+            <option value="Academic Project Support">Academic / University Project</option>
+            <option value="Digital Marketing">Digital Marketing</option>
+            <option value="Tech Consulting">Tech Consulting</option>
+          </select>
+          <textarea id="message" rows="4" placeholder="Tell us about your project..." required></textarea>
+          <button type="submit" class="btn-primary">Send Message</button>
+          <p id="form-response" class="form-status"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <p>&copy; 2026 REGNONS. All rights reserved.</p>
+      <p>Contact: regnonsbangladesh@gmail.com</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
