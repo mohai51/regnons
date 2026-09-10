@@ -3,7 +3,9 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const app = express();
-app.use(cors());
+
+// CORS Settings - Allow all origins
+app.use(cors({ origin: '*' }));
 app.use(express.json());
 
 // MongoDB Fast Serverless Connection
@@ -19,11 +21,15 @@ const connectDB = async () => {
 };
 
 app.use(async (req, res, next) => {
-  await connectDB();
-  next();
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    res.status(500).json({ error: "Database Connection Failed" });
+  }
 });
 
-// Schemas with Image URL Support
+// Schemas
 const ServiceSchema = new mongoose.Schema({
   title: String,
   description: String,
@@ -51,6 +57,7 @@ const Project = mongoose.models.Project || mongoose.model('Project', ProjectSche
 const Inquiry = mongoose.models.Inquiry || mongoose.model('Inquiry', InquirySchema);
 
 const ADMIN_KEY = process.env.ADMIN_KEY || "regnons123";
+
 const authAdmin = (req, res, next) => {
   const key = req.headers['x-admin-key'];
   if (key === ADMIN_KEY) return next();
@@ -67,7 +74,7 @@ app.get('/api/services', async (req, res) => {
 app.post('/api/services', authAdmin, async (req, res) => {
   const newService = new Service(req.body);
   await newService.save();
-  res.json({ message: "Service added" });
+  res.json({ message: "Service added successfully", newService });
 });
 
 app.delete('/api/services/:id', authAdmin, async (req, res) => {
@@ -83,7 +90,7 @@ app.get('/api/projects', async (req, res) => {
 app.post('/api/projects', authAdmin, async (req, res) => {
   const newProject = new Project(req.body);
   await newProject.save();
-  res.json({ message: "Project added" });
+  res.json({ message: "Project added", newProject });
 });
 
 app.delete('/api/projects/:id', authAdmin, async (req, res) => {
@@ -94,7 +101,7 @@ app.delete('/api/projects/:id', authAdmin, async (req, res) => {
 app.post('/api/contact', async (req, res) => {
   const newInquiry = new Inquiry(req.body);
   await newInquiry.save();
-  res.json({ message: "Success" });
+  res.json({ message: "Inquiry saved successfully!" });
 });
 
 app.get('/api/inquiries', authAdmin, async (req, res) => {
