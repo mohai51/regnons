@@ -28,6 +28,7 @@ async function loadPublicServices() {
         <h3>${s.title}</h3>
         <p>${s.description}</p>
         <span class="tag">${s.category || 'Service'}</span>
+        ${s.externalLink ? `<a href="${s.externalLink}" target="_blank" class="btn-secondary" style="display:inline-block; margin-top:12px; font-size:14px; text-decoration:none;">Explore →</a>` : ''}
       </div>
     `).join('');
   } catch (err) {
@@ -52,6 +53,7 @@ async function loadPublicProjects() {
         <h3>${p.title}</h3>
         <p><strong>Tech:</strong> ${p.techStack}</p>
         <span class="tag">${p.category}</span>
+        ${p.externalLink ? `<a href="${p.externalLink}" target="_blank" class="btn-primary" style="display:inline-block; margin-top:12px; font-size:14px; text-decoration:none;">Explore Project →</a>` : ''}
       </div>
     `).join('');
   } catch (err) {
@@ -118,9 +120,12 @@ async function loadAdminServices() {
     const res = await fetch(`${API_BASE}/services`);
     const data = await res.json();
     list.innerHTML = data.map(s => `
-      <div class="item-row">
+      <div class="item-row" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; padding:8px; background:#f8fafc; border-radius:6px;">
         <span><strong>${s.title}</strong> (${s.category})</span>
-        <button class="btn-del" onclick="deleteService('${s._id}')">Delete</button>
+        <div>
+          <button onclick="openEditModal('service', '${s._id}', '${encodeURIComponent(s.title)}', '${encodeURIComponent(s.description || '')}', '${encodeURIComponent(s.imageUrl || '')}', '${encodeURIComponent(s.externalLink || '')}', '${encodeURIComponent(s.category || '')}')" style="margin-right:5px; background:#3b82f6; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Edit</button>
+          <button class="btn-del" onclick="deleteService('${s._id}')" style="background:#ef4444; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Delete</button>
+        </div>
       </div>
     `).join('');
   } catch (err) {
@@ -143,9 +148,12 @@ async function loadAdminProjects() {
     const res = await fetch(`${API_BASE}/projects`);
     const data = await res.json();
     list.innerHTML = data.map(p => `
-      <div class="item-row">
+      <div class="item-row" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; padding:8px; background:#f8fafc; border-radius:6px;">
         <span><strong>${p.title}</strong></span>
-        <button class="btn-del" onclick="deleteProject('${p._id}')">Delete</button>
+        <div>
+          <button onclick="openEditModal('project', '${p._id}', '${encodeURIComponent(p.title)}', '${encodeURIComponent(p.techStack || '')}', '${encodeURIComponent(p.imageUrl || '')}', '${encodeURIComponent(p.externalLink || '')}', '${encodeURIComponent(p.category || '')}')" style="margin-right:5px; background:#3b82f6; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Edit</button>
+          <button class="btn-del" onclick="deleteProject('${p._id}')" style="background:#ef4444; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Delete</button>
+        </div>
       </div>
     `).join('');
   } catch (err) {
@@ -205,7 +213,8 @@ function setupAdminForms() {
           title: document.getElementById('service-title').value,
           category: document.getElementById('service-category').value,
           description: document.getElementById('service-desc').value,
-          imageUrl: document.getElementById('service-img').value
+          imageUrl: document.getElementById('service-img').value,
+          externalLink: document.getElementById('service-link') ? document.getElementById('service-link').value : ''
         })
       });
       sForm.reset();
@@ -224,11 +233,73 @@ function setupAdminForms() {
           title: document.getElementById('project-title').value,
           techStack: document.getElementById('project-tech').value,
           category: document.getElementById('project-category').value,
-          imageUrl: document.getElementById('project-img').value
+          imageUrl: document.getElementById('project-img').value,
+          externalLink: document.getElementById('project-link') ? document.getElementById('project-link').value : ''
         })
       });
       pForm.reset();
       loadAdminProjects();
     };
+  }
+}
+
+// --- EDIT MODAL LOGIC ---
+
+function openEditModal(type, id, title, desc, img, link, category) {
+  document.getElementById('edit-type').value = type;
+  document.getElementById('edit-id').value = id;
+  document.getElementById('edit-title').value = decodeURIComponent(title);
+  document.getElementById('edit-desc').value = decodeURIComponent(desc);
+  document.getElementById('edit-img').value = decodeURIComponent(img);
+  document.getElementById('edit-link').value = decodeURIComponent(link);
+  if (document.getElementById('edit-category')) {
+    document.getElementById('edit-category').value = decodeURIComponent(category);
+  }
+  document.getElementById('edit-modal').classList.remove('hidden');
+}
+
+function closeEditModal() {
+  document.getElementById('edit-modal').classList.add('hidden');
+}
+
+async function saveEdit() {
+  const type = document.getElementById('edit-type').value;
+  const id = document.getElementById('edit-id').value;
+
+  const payload = {
+    title: document.getElementById('edit-title').value,
+    imageUrl: document.getElementById('edit-img').value,
+    externalLink: document.getElementById('edit-link').value
+  };
+
+  if (document.getElementById('edit-category')) {
+    payload.category = document.getElementById('edit-category').value;
+  }
+
+  if (type === 'service') {
+    payload.description = document.getElementById('edit-desc').value;
+  } else {
+    payload.techStack = document.getElementById('edit-desc').value;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/${type}s/${id}`, {
+      method: 'PUT',
+      headers: { 
+        'Content-Type': 'application/json', 
+        'x-admin-key': adminKey 
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      closeEditModal();
+      if (type === 'service') loadAdminServices();
+      else loadAdminProjects();
+    } else {
+      alert('Failed to update item. Check backend response.');
+    }
+  } catch (err) {
+    alert('Error updating item.');
   }
 }

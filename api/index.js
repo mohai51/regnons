@@ -50,14 +50,16 @@ const ServiceSchema = new mongoose.Schema({
   title: String,
   description: String,
   category: String,
-  imageUrl: String
+  imageUrl: String,
+  externalLink: String
 });
 
 const ProjectSchema = new mongoose.Schema({
   title: String,
   category: String,
   techStack: String,
-  imageUrl: String
+  imageUrl: String,
+  externalLink: String
 });
 
 const InquirySchema = new mongoose.Schema({
@@ -93,6 +95,11 @@ app.post('/api/services', authAdmin, async (req, res) => {
   res.json({ message: "Service added successfully", newService });
 });
 
+app.put('/api/services/:id', authAdmin, async (req, res) => {
+  await Service.findByIdAndUpdate(req.params.id, req.body);
+  res.json({ message: "Service updated" });
+});
+
 app.delete('/api/services/:id', authAdmin, async (req, res) => {
   await Service.findByIdAndDelete(req.params.id);
   res.json({ message: "Service deleted" });
@@ -107,6 +114,11 @@ app.post('/api/projects', authAdmin, async (req, res) => {
   const newProject = new Project(req.body);
   await newProject.save();
   res.json({ message: "Project added", newProject });
+});
+
+app.put('/api/projects/:id', authAdmin, async (req, res) => {
+  await Project.findByIdAndUpdate(req.params.id, req.body);
+  res.json({ message: "Project updated" });
 });
 
 app.delete('/api/projects/:id', authAdmin, async (req, res) => {
