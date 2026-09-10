@@ -4,30 +4,46 @@ const cors = require('cors');
 
 const app = express();
 
-// CORS Settings - Allow all origins
 app.use(cors({ origin: '*' }));
 app.use(express.json());
 
-// MongoDB Fast Serverless Connection
 const MONGO_URI = process.env.MONGO_URI;
-let isConnected = false;
 
-const connectDB = async () => {
-  if (isConnected) return;
-  if (MONGO_URI) {
-    const db = await mongoose.connect(MONGO_URI);
-    isConnected = db.connections[0].readyState;
+// Optimized MongoDB Connection for Vercel Serverless
+let cachedDb = null;
+
+async function connectToDatabase() {
+  if (cachedDb && mongoose.connection.readyState === 1) {
+    return cachedDb;
   }
-};
 
+  if (!MONGO_URI) {
+    throw new Error("MONGO_URI is missing in Vercel Environment Variables");
+  }
+
+  // Set Mongoose connection options for fast failover
+  mongoose.set('strictQuery', false);
+  
+  const db = await mongoose.connect(MONGO_URI, {
+    bufferCommands: false, // Turn off buffering so it fails fast instead of hanging 10s
+    serverSelectionTimeoutMS: 5000 // 5 seconds timeout
+  });
+
+  cachedDb = db;
+  return db;
+}
+
+// Middleware to connect to DB on every request
 app.use(async (req, res, next) => {
   try {
-    await connectDB();
+    await connectToDatabase();
     next();
   } catch (err) {
-    res.status(500).json({ error: "Database Connection Failed" });
+    console.error("MongoDB Connection Error:", err.message);
+    return res.status(500).json({ error: "Database Connection Failed", details: err.message });
   }
 });
+
 
 // Schemas
 const ServiceSchema = new mongoose.Schema({
