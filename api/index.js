@@ -6,27 +6,36 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// MongoDB Connection
-const MONGO_URI = process.env.MONGO_URI; // Vercel-এর Environment Variable-এ সেট করবেন
-if (MONGO_URI) {
-  mongoose.connect(MONGO_URI)
-    .then(() => console.log('MongoDB Connected'))
-    .catch(err => console.error('MongoDB Connection Error:', err));
-}
+// MongoDB Fast Serverless Connection
+const MONGO_URI = process.env.MONGO_URI;
+let isConnected = false;
 
-// Mongo Schemas
+const connectDB = async () => {
+  if (isConnected) return;
+  if (MONGO_URI) {
+    const db = await mongoose.connect(MONGO_URI);
+    isConnected = db.connections[0].readyState;
+  }
+};
+
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
+
+// Schemas with Image URL Support
 const ServiceSchema = new mongoose.Schema({
   title: String,
   description: String,
-  category: String, // Web, Academic, Marketing
-  icon: String
+  category: String,
+  imageUrl: String
 });
 
 const ProjectSchema = new mongoose.Schema({
   title: String,
   category: String,
   techStack: String,
-  image: String
+  imageUrl: String
 });
 
 const InquirySchema = new mongoose.Schema({
@@ -41,17 +50,15 @@ const Service = mongoose.models.Service || mongoose.model('Service', ServiceSche
 const Project = mongoose.models.Project || mongoose.model('Project', ProjectSchema);
 const Inquiry = mongoose.models.Inquiry || mongoose.model('Inquiry', InquirySchema);
 
-// Admin Passkey Middleware (Simple Protection)
 const ADMIN_KEY = process.env.ADMIN_KEY || "regnons123";
 const authAdmin = (req, res, next) => {
   const key = req.headers['x-admin-key'];
   if (key === ADMIN_KEY) return next();
-  res.status(401).json({ error: "Unauthorized Access" });
+  res.status(401).json({ error: "Unauthorized" });
 };
 
 // --- ROUTES ---
 
-// Services Endpoints
 app.get('/api/services', async (req, res) => {
   const services = await Service.find();
   res.json(services);
@@ -60,7 +67,7 @@ app.get('/api/services', async (req, res) => {
 app.post('/api/services', authAdmin, async (req, res) => {
   const newService = new Service(req.body);
   await newService.save();
-  res.json({ message: "Service added successfully", newService });
+  res.json({ message: "Service added" });
 });
 
 app.delete('/api/services/:id', authAdmin, async (req, res) => {
@@ -68,7 +75,6 @@ app.delete('/api/services/:id', authAdmin, async (req, res) => {
   res.json({ message: "Service deleted" });
 });
 
-// Projects Endpoints
 app.get('/api/projects', async (req, res) => {
   const projects = await Project.find();
   res.json(projects);
@@ -77,7 +83,7 @@ app.get('/api/projects', async (req, res) => {
 app.post('/api/projects', authAdmin, async (req, res) => {
   const newProject = new Project(req.body);
   await newProject.save();
-  res.json({ message: "Project added", newProject });
+  res.json({ message: "Project added" });
 });
 
 app.delete('/api/projects/:id', authAdmin, async (req, res) => {
@@ -85,11 +91,10 @@ app.delete('/api/projects/:id', authAdmin, async (req, res) => {
   res.json({ message: "Project deleted" });
 });
 
-// Inquiry / Contact Endpoints
 app.post('/api/contact', async (req, res) => {
   const newInquiry = new Inquiry(req.body);
   await newInquiry.save();
-  res.json({ message: "Message sent successfully!" });
+  res.json({ message: "Success" });
 });
 
 app.get('/api/inquiries', authAdmin, async (req, res) => {
@@ -98,5 +103,3 @@ app.get('/api/inquiries', authAdmin, async (req, res) => {
 });
 
 module.exports = app;
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
