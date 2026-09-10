@@ -18,13 +18,13 @@ async function loadPublicServices() {
     const services = await res.json();
 
     if (!Array.isArray(services) || services.length === 0) {
-      grid.innerHTML = '<p>No services added yet. Add from Admin panel.</p>';
+      grid.innerHTML = '<p>No services added yet.</p>';
       return;
     }
 
     grid.innerHTML = services.map(s => `
       <div class="card">
-        ${s.imageUrl ? `<img src="${s.imageUrl}" style="width:100%; height:160px; object-fit:cover; border-radius:8px; margin-bottom:12px;">` : ''}
+        ${s.imageUrl ? `<div class="card-img-wrapper"><img src="${s.imageUrl}" alt="${s.title}" class="card-img" onerror="this.style.display='none'"></div>` : ''}
         <h3>${s.title}</h3>
         <p>${s.description}</p>
         <span class="tag">${s.category || 'Service'}</span>
@@ -48,7 +48,7 @@ async function loadPublicProjects() {
 
     grid.innerHTML = projects.map(p => `
       <div class="card">
-        ${p.imageUrl ? `<img src="${p.imageUrl}" style="width:100%; height:160px; object-fit:cover; border-radius:8px; margin-bottom:12px;">` : ''}
+        ${p.imageUrl ? `<div class="card-img-wrapper"><img src="${p.imageUrl}" alt="${p.title}" class="card-img" onerror="this.style.display='none'"></div>` : ''}
         <h3>${p.title}</h3>
         <p><strong>Tech:</strong> ${p.techStack}</p>
         <span class="tag">${p.category}</span>
