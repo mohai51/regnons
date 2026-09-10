@@ -11,36 +11,24 @@
 </head>
 <body>
 
+  
   <!-- Navigation -->
-  <nav class="navbar">
-    <div class="container nav-container">
-      <a href="#" class="logo-wrapper" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
-        <!-- REGNONS Crown Chip Vector Logo -->
-        <svg width="36" height="36" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Left Chip -->
-          <polygon points="20,25 10,42 30,42" fill="#0f2b48"/>
-          <rect x="7" y="48" width="26" height="55" rx="2" fill="#0f2b48"/>
-          <!-- Center Chip -->
-          <polygon points="60,10 45,32 75,32" fill="#0f2b48"/>
-          <rect x="42" y="38" width="36" height="70" rx="3" fill="#0f2b48"/>
-          <!-- Right Chip -->
-          <polygon points="100,25 90,42 110,42" fill="#0f2b48"/>
-          <rect x="87" y="48" width="26" height="55" rx="2" fill="#0f2b48"/>
-          <!-- Copper Wires -->
-          <path d="M 50,55 L 60,65 L 60,85 L 70,95" stroke="#d97706" stroke-width="3" fill="none"/>
-          <circle cx="50" cy="55" r="2" fill="#d97706"/>
-          <circle cx="70" cy="95" r="2" fill="#d97706"/>
-        </svg>
-        <span class="logo-text" style="font-size: 1.4rem; font-weight: 800; color: #0f2b48; letter-spacing: 2px;">REGN<span style="color: #d97706;">O</span>NS</span>
-      </a>
+<nav class="navbar">
+  <div class="container nav-container">
+    <a href="#" class="logo-wrapper" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+      <!-- PNG Logo Addition -->
+      <img src="Regnons1.png" alt="REGNONS Logo" style="height: 40px; width: auto; object-fit: contain;border-radius: 10px; box-shadow: 0 5px 6px rgba(2, 0, 0, 0.1);">
+      <span class="logo-text" style="font-size: 1.4rem; font-weight: 800; color: #0f2b48; letter-spacing: 2px;">REGN<span style="color: #d97706;">O</span>NS</span>
+    </a>
 
-      <ul class="nav-links">
-        <li><a href="#services">Services</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact" class="btn-primary">Contact Us</a></li>
-      </ul>
-    </div>
-  </nav>
+    <ul class="nav-links">
+      <li><a href="#services" class="nav-btn">Services</a></li>
+      <li><a href="#projects" class="nav-btn">Projects</a></li>
+      <!-- Facebook Inbox Link (m.me Link) -->
+      <li><a href="https://www.facebook.com/profile.php?id=61594499150741" target="_blank" class="btn-primary" style="color: #f7f8fa; background: #0f2b48;">Contact Us</a></li>
+    </ul>
+  </div>
+</nav>
 
   <!-- Hero Section -->
   <header class="hero">
@@ -76,13 +64,12 @@
   </section>
 
   <!-- Contact -->
-  <section id="contact" class="contact-section">
-    <div class="container">
-      <div class="contact-card">
-        <div>
-          <h2>Let's Talk</h2>
-          <p>📧 regnonsbangladesh@gmail.com</p>
-        </div>
+<section id="contact" class="contact-section">
+  <div class="container">
+    <div class="contact-card">
+      <div>
+        <h2>Let's Talk</h2>
+        
         <form id="contact-form" class="contact-form">
           <input type="text" id="name" placeholder="Your Name" required>
           <input type="email" id="email" placeholder="Your Email" required>
@@ -97,7 +84,8 @@
         </form>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
   <script src="app.js"></script>
 </body>
