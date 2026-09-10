@@ -14,13 +14,29 @@
   <!-- Navigation -->
   <nav class="navbar">
     <div class="container nav-container">
-      <a href="#" class="logo">
-        <span class="logo-text">REGN<span class="gold-o">O</span>NS</span>
+      <a href="#" class="logo-wrapper" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+        <!-- REGNONS Crown Chip Vector Logo -->
+        <svg width="36" height="36" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Left Chip -->
+          <polygon points="20,25 10,42 30,42" fill="#0f2b48"/>
+          <rect x="7" y="48" width="26" height="55" rx="2" fill="#0f2b48"/>
+          <!-- Center Chip -->
+          <polygon points="60,10 45,32 75,32" fill="#0f2b48"/>
+          <rect x="42" y="38" width="36" height="70" rx="3" fill="#0f2b48"/>
+          <!-- Right Chip -->
+          <polygon points="100,25 90,42 110,42" fill="#0f2b48"/>
+          <rect x="87" y="48" width="26" height="55" rx="2" fill="#0f2b48"/>
+          <!-- Copper Wires -->
+          <path d="M 50,55 L 60,65 L 60,85 L 70,95" stroke="#d97706" stroke-width="3" fill="none"/>
+          <circle cx="50" cy="55" r="2" fill="#d97706"/>
+          <circle cx="70" cy="95" r="2" fill="#d97706"/>
+        </svg>
+        <span class="logo-text" style="font-size: 1.4rem; font-weight: 800; color: #0f2b48; letter-spacing: 2px;">REGN<span style="color: #d97706;">O</span>NS</span>
       </a>
+
       <ul class="nav-links">
         <li><a href="#services">Services</a></li>
         <li><a href="#projects">Projects</a></li>
-        <li><a href="#about">About</a></li>
         <li><a href="#contact" class="btn-primary">Contact Us</a></li>
       </ul>
     </div>
@@ -29,9 +45,9 @@
   <!-- Hero Section -->
   <header class="hero">
     <div class="container hero-content">
-      <span class="badge">Innovation & Tech Agency</span>
+      <span class="badge">Tech Agency & Academic Solutions</span>
       <h1>Empowering Ideas, <br><span class="highlight">Leading the Future.</span></h1>
-      <p>We transform bold business concepts and complex academic requirements into high-performance digital solutions.</p>
+      <p>Custom Software Development, University Projects, and Strategic Marketing.</p>
       <div class="hero-btns">
         <a href="#contact" class="btn-primary">Start a Project</a>
         <a href="#services" class="btn-secondary">Explore Services</a>
@@ -39,68 +55,49 @@
     </div>
   </header>
 
-  <!-- Services Section -->
+  <!-- Services -->
   <section id="services" class="services-section">
     <div class="container">
       <div class="section-title">
         <h2>Our Services</h2>
-        <p>End-to-end technical excellence for businesses and academic needs.</p>
       </div>
-      <div id="services-grid" class="grid">
-        <!-- Dynamically loaded from DB via app.js -->
-        <p class="loading">Loading services...</p>
-      </div>
+      <div id="services-grid" class="grid"></div>
     </div>
   </section>
 
-  <!-- Projects / Portfolio Section -->
+  <!-- Projects -->
   <section id="projects" class="projects-section">
     <div class="container">
       <div class="section-title">
         <h2>Portfolio & University Projects</h2>
-        <p>Explore some of our client applications and academic solutions.</p>
       </div>
-      <div id="projects-grid" class="grid">
-        <!-- Dynamically loaded from DB via app.js -->
-        <p class="loading">Loading projects...</p>
-      </div>
+      <div id="projects-grid" class="grid"></div>
     </div>
   </section>
 
-  <!-- Contact Form Section -->
+  <!-- Contact -->
   <section id="contact" class="contact-section">
     <div class="container">
       <div class="contact-card">
-        <div class="contact-info">
-          <h2>Let's Build Something Great</h2>
-          <p>Have a project idea or need support with academic software development? Send us a message.</p>
-          <p class="email-link">📧 regnonsbangladesh@gmail.com</p>
+        <div>
+          <h2>Let's Talk</h2>
+          <p>📧 regnonsbangladesh@gmail.com</p>
         </div>
         <form id="contact-form" class="contact-form">
           <input type="text" id="name" placeholder="Your Name" required>
           <input type="email" id="email" placeholder="Your Email" required>
           <select id="projectType" required>
-            <option value="" disabled selected>Select Category</option>
-            <option value="Web/Software Development">Web / Software Development</option>
-            <option value="Academic Project Support">Academic / University Project</option>
+            <option value="Web Development">Web Development</option>
+            <option value="Academic Project Support">Academic Project Support</option>
             <option value="Digital Marketing">Digital Marketing</option>
-            <option value="Tech Consulting">Tech Consulting</option>
           </select>
-          <textarea id="message" rows="4" placeholder="Tell us about your project..." required></textarea>
+          <textarea id="message" rows="4" placeholder="Your Message" required></textarea>
           <button type="submit" class="btn-primary">Send Message</button>
-          <p id="form-response" class="form-status"></p>
+          <p id="form-response"></p>
         </form>
       </div>
     </div>
   </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container footer-content">
-      <p>&copy; 2026 REGNONS. All rights reserved.</p>
-      <p>Contact: regnonsbangladesh@gmail.com</p>
-    </div>
-  </footer>
 
   <script src="app.js"></script>
 </body>

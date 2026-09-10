@@ -7,48 +7,38 @@
   <link rel="stylesheet" href="style.css">
   <style>
     .admin-container { padding: 40px 0; }
-    .auth-box, .dashboard-box { background: var(--white); border: 1px solid var(--card-border); border-radius: 12px; padding: 30px; margin-bottom: 30px; }
-    .form-group { margin-bottom: 15px; }
-    .form-group label { display: block; font-weight: 600; margin-bottom: 5px; }
-    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 1px solid var(--card-border); border-radius: 6px; }
-    .list-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid var(--card-border); }
-    .btn-delete { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+    .box { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; margin-bottom: 25px; }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 4px; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; }
     .hidden { display: none; }
+    .item-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
+    .btn-del { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
   </style>
 </head>
 <body>
 
-  <nav class="navbar">
-    <div class="container nav-container">
-      <a href="/" class="logo">
-        <span class="logo-text">REGN<span class="gold-o">O</span>NS</span> <small>(Admin Panel)</small>
-      </a>
-      <a href="/" class="btn-secondary">View Website</a>
-    </div>
-  </nav>
-
   <div class="container admin-container">
     
-    <!-- Admin Authentication -->
-    <div id="auth-section" class="auth-box">
-      <h2>Admin Passkey Required</h2>
-      <p style="color: var(--text-muted); margin-bottom: 15px;">Enter your admin passkey to manage content.</p>
-      <div class="form-group">
-        <input type="password" id="admin-passkey" placeholder="Enter Secret Passkey (default: regnons123)">
+    <!-- Auth Section -->
+    <div id="auth-section" class="box">
+      <h2>Admin Login</h2>
+      <div class="form-group" style="margin-top: 15px;">
+        <input type="password" id="admin-passkey" placeholder="Enter Admin Passkey">
       </div>
-      <button onclick="loginAdmin()" class="btn-primary">Unlock Panel</button>
+      <button onclick="loginAdmin()" class="btn-primary">Unlock</button>
     </div>
 
-    <!-- Dashboard Content (Hidden by default) -->
+    <!-- Dashboard -->
     <div id="dashboard-section" class="hidden">
       
-      <!-- Add Service Form -->
-      <div class="dashboard-box">
-        <h3>Add New Service</h3>
+      <!-- Service Manager -->
+      <div class="box">
+        <h3>Add Service</h3>
         <form id="add-service-form" style="margin-top: 15px;">
           <div class="form-group">
-            <label>Service Title</label>
-            <input type="text" id="service-title" placeholder="e.g., University Final Year Project Support" required>
+            <label>Title</label>
+            <input type="text" id="service-title" required>
           </div>
           <div class="form-group">
             <label>Category</label>
@@ -60,26 +50,28 @@
           </div>
           <div class="form-group">
             <label>Description</label>
-            <textarea id="service-desc" rows="3" required></textarea>
+            <textarea id="service-desc" rows="2" required></textarea>
+          </div>
+          <div class="form-group">
+            <label>Image URL (Optional)</label>
+            <input type="url" id="service-img" placeholder="https://example.com/image.jpg">
           </div>
           <button type="submit" class="btn-primary">Add Service</button>
         </form>
-
-        <h4 style="margin-top: 25px;">Existing Services</h4>
-        <div id="admin-services-list" style="margin-top: 10px;"></div>
+        <div id="admin-services-list" style="margin-top: 15px;"></div>
       </div>
 
-      <!-- Add Project Form -->
-      <div class="dashboard-box">
+      <!-- Project Manager -->
+      <div class="box">
         <h3>Add Portfolio / Academic Project</h3>
         <form id="add-project-form" style="margin-top: 15px;">
           <div class="form-group">
             <label>Project Title</label>
-            <input type="text" id="project-title" placeholder="e.g., E-Commerce App or ML Research Thesis" required>
+            <input type="text" id="project-title" required>
           </div>
           <div class="form-group">
             <label>Tech Stack</label>
-            <input type="text" id="project-tech" placeholder="e.g., Node.js, React, Python" required>
+            <input type="text" id="project-tech" placeholder="e.g. React, Node.js" required>
           </div>
           <div class="form-group">
             <label>Category</label>
@@ -88,16 +80,18 @@
               <option value="Academic / University">Academic / University</option>
             </select>
           </div>
+          <div class="form-group">
+            <label>Project Cover Image URL</label>
+            <input type="url" id="project-img" placeholder="https://example.com/cover.jpg">
+          </div>
           <button type="submit" class="btn-primary">Add Project</button>
         </form>
-
-        <h4 style="margin-top: 25px;">Existing Projects</h4>
-        <div id="admin-projects-list" style="margin-top: 10px;"></div>
+        <div id="admin-projects-list" style="margin-top: 15px;"></div>
       </div>
 
-      <!-- Customer Inquiries -->
-      <div class="dashboard-box">
-        <h3>Contact Form Messages / Leads</h3>
+      <!-- Messages -->
+      <div class="box">
+        <h3>Contact Messages</h3>
         <div id="admin-inquiries-list" style="margin-top: 15px;"></div>
       </div>
 
