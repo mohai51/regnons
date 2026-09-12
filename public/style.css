@@ -157,21 +157,49 @@ body {
   gap: 24px;
 }
 
+/* Card Container Layout */
 .card {
-  background: var(--white);
-  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
-  border: 1px solid var(--card-border);
+  padding: 16px;
+  overflow: hidden; /* ভেতরের উপাদান যেন বাইরে না আসে */
 }
 
+/* Image Wrapper Fix */
+.card-img-wrapper {
+  width: 100%;
+  height: 200px; /* নির্দিষ্ট হাইট */
+  overflow: hidden; /* অতিরিক্ত অংশ কেটে যাবে */
+  border-radius: 8px;
+  margin-bottom: 15px;
+  background-color: var(--bg-secondary);
+}
+
+/* Image Proper Fitting */
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ইমেজ কেটে না গিয়ে ফ্রেমে পারফেক্টলি ফিট হবে */
+  display: block;
+}
+
+/* Text Content Adjustment */
 .card h3 {
-  color: var(--navy-primary);
+  margin-top: 0;
   margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: var(--text-primary);
+  line-height: 1.4;
 }
 
 .card p {
-  color: var(--text-muted);
+  margin-bottom: 12px;
+  color: var(--text-secondary);
   font-size: 0.95rem;
+  line-height: 1.5;
 }
 
 .tag {
@@ -264,11 +292,7 @@ img {
   height: auto;
 }
 
-/* 3. Media Query for Mobile Devices (Width < 768px) */
-@media (max-width: 768px) {
-  
-  /* Navbar Adjustment */
-  /* Mobile Responsive Header Fix */
+
 @media (max-width: 768px) {
   .nav-container {
     flex-direction: row !important; /* উপরে-নিচে না হয়ে এক লাইনে থাকবে */
@@ -366,4 +390,3 @@ img {
     width: 90% !important;
     padding: 15px !important;
   }
-}
